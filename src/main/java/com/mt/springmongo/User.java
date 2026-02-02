@@ -24,9 +24,9 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
-    private Int age;
+    private Integer age;
 
-    public User(String firstName, String lastName, String email, int age) {
+    public User(String firstName, String lastName, String email, Integer age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -69,7 +69,7 @@ public class User implements Serializable {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
