@@ -27,7 +27,7 @@ public class UserController {
     public String save(@RequestParam("firstName") String firstName,
                        @RequestParam("lastName") String lastName,
                        @RequestParam("email") String email,
-                       @RequestParam("email") String email) {
+                       @RequestParam("age") String age) {
 
     	logger.info("Creating user name: "+firstName);
         User user = new User(firstName, lastName, email, age);
