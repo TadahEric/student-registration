@@ -65,7 +65,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
