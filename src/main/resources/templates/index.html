@@ -1,724 +1,201 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Registration System</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+<!-- include java script in the footer -->
+<script type="text/javascript"
+	th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+<title>Spring Boot APP with MongoDB</title>
+
+<style>
+    body {
+        background-color: #f5f5f5;
+        padding-bottom: 30px;
+    }
     
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    .blue-badge {
+        background-color: #007bff;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 5px;
+        font-size: 12px;
+        font-weight: bold;
+    }
     
-    <!-- Custom CSS -->
-    <style>
-        :root {
-            --primary-color: #4a6baf;
-            --secondary-color: #6c757d;
-            --accent-color: #20c997;
-            --light-bg: #f8f9fa;
-            --dark-bg: #343a40;
-            --card-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            --transition: all 0.3s ease;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-        }
-        
-        .header-section {
-            background: linear-gradient(to right, var(--primary-color), #5d7dc9);
-            color: white;
-            padding: 2.5rem 0;
-            margin-bottom: 2.5rem;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 20px rgba(74, 107, 175, 0.3);
-        }
-        
-        .header-section h1 {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-        }
-        
-        .header-section .lead {
-            opacity: 0.9;
-            font-weight: 300;
-        }
-        
-        .card-custom {
-            background: white;
-            border: none;
-            border-radius: 15px;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-        }
-        
-        .card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
-        }
-        
-        .card-header-custom {
-            background: linear-gradient(to right, var(--primary-color), #5d7dc9);
-            color: white;
-            border-radius: 15px 15px 0 0 !important;
-            padding: 1.25rem 1.5rem;
-            border: none;
-        }
-        
-        .form-control-custom {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 0.75rem 1rem;
-            transition: var(--transition);
-        }
-        
-        .form-control-custom:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(74, 107, 175, 0.25);
-        }
-        
-        .btn-primary-custom {
-            background: linear-gradient(to right, var(--primary-color), #5d7dc9);
-            border: none;
-            border-radius: 10px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        
-        .btn-primary-custom:hover {
-            background: linear-gradient(to right, #3a5795, #4a6baf);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 107, 175, 0.3);
-        }
-        
-        .btn-success-custom {
-            background: linear-gradient(to right, var(--accent-color), #3dd4ad);
-            border: none;
-            border-radius: 10px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        
-        .btn-success-custom:hover {
-            background: linear-gradient(to right, #1ba87e, #20c997);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(32, 201, 151, 0.3);
-        }
-        
-        .table-custom {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        
-        .table-custom thead {
-            background: linear-gradient(to right, var(--primary-color), #5d7dc9);
-            color: white;
-        }
-        
-        .table-custom th {
-            border: none;
-            padding: 1rem;
-            font-weight: 500;
-        }
-        
-        .table-custom tbody tr {
-            transition: var(--transition);
-        }
-        
-        .table-custom tbody tr:hover {
-            background-color: rgba(74, 107, 175, 0.05);
-        }
-        
-        .table-custom td {
-            padding: 1rem;
-            vertical-align: middle;
-            border-color: #f1f3f4;
-        }
-        
-        .action-buttons .btn {
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
-            margin: 0 2px;
-            font-size: 0.875rem;
-        }
-        
-        .badge-tech {
-            background: rgba(74, 107, 175, 0.1);
-            color: var(--primary-color);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 500;
-            margin: 0.25rem;
-            display: inline-block;
-        }
-        
-        .footer-section {
-            background: var(--dark-bg);
-            color: white;
-            padding: 2rem 0;
-            margin-top: 3rem;
-            border-radius: 20px 20px 0 0;
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .tech-icon {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            background: rgba(74, 107, 175, 0.1);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-        }
-        
-        .stat-card {
-            text-align: center;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            margin-bottom: 1rem;
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        @media (max-width: 768px) {
-            .header-section {
-                padding: 1.5rem 0;
-                border-radius: 0 0 15px 15px;
-            }
-            
-            .card-custom {
-                margin-bottom: 1rem;
-            }
-        }
-    </style>
+    .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-top: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    table {
+        margin-top: 20px;
+        background-color: white;
+    }
+    
+    .footer-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+    }
+</style>
 </head>
 <body>
-    <!-- Header Section -->
-    <div class="header-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h1><i class="fas fa-user-graduate me-2"></i>Student Registration System</h1>
-                    <p class="lead">A modern, efficient system for managing student records with MongoDB backend</p>
-                </div>
-                <div class="col-md-4 text-end">
-                    <div class="logo-container">
-                        <span class="badge-tech"><i class="fab fa-java me-1"></i> Spring Boot</span>
-                        <span class="badge-tech"><i class="fas fa-database me-1"></i> MongoDB</span>
-                        <span class="badge-tech"><i class="fab fa-docker me-1"></i> Docker</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<h1 class="text-center">Student Registration System</h1>
+		
+		<div class="row">
+			<div class="col-md-6">
+				<form name="saveUser" action="/save" method="post" class="form-horizontal">
+					<div class="form-group">
+						<div class="blue-badge">First Name</div>
+						<input type="text" id="firstName" class="form-control" 
+						       placeholder="Enter first name" name="firstName" required />
+					</div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Quick Stats -->
-        <div class="row mb-4">
-            <div class="col-md-3 col-sm-6">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalStudents">0</div>
-                    <div class="stat-label">Total Students</div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="stat-card">
-                    <div class="stat-number" id="activeStudents">0</div>
-                    <div class="stat-label">Active Students</div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="stat-card">
-                    <div class="stat-number">2024</div>
-                    <div class="stat-label">Current Year</div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="stat-card">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">System Status</div>
-                </div>
-            </div>
-        </div>
+					<div class="form-group">
+						<div class="blue-badge">Last Name</div>
+						<input type="text" id="lastName" class="form-control" 
+						       placeholder="Enter last name" name="lastName" required>
+					</div>
+					
+					<div class="form-group">
+						<div class="blue-badge">Age</div>
+						<input type="number" id="age" class="form-control" 
+						       placeholder="Enter age" name="age" min="1" max="100" required>
+					</div>
 
-        <div class="row">
-            <!-- Registration Form -->
-            <div class="col-lg-5 mb-4">
-                <div class="card card-custom">
-                    <div class="card-header card-header-custom">
-                        <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Register New Student</h4>
-                    </div>
-                    <div class="card-body">
-                        <form id="studentForm" th:action="@{/save}" method="post" th:object="${student}">
-                            <div class="mb-3">
-                                <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-custom" id="firstName" 
-                                       name="firstName" placeholder="Enter first name" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-custom" id="lastName" 
-                                       name="lastName" placeholder="Enter last name" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="age" class="form-label">Age <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control form-control-custom" id="age" 
-                                       name="age" placeholder="Enter age" min="16" max="60" required>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control form-control-custom" id="email" 
-                                       name="email" placeholder="student@example.com" required>
-                                <div class="form-text">We'll never share your email with anyone else.</div>
-                            </div>
-                            
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary-custom">
-                                    <i class="fas fa-save me-2"></i>Register Student
-                                </button>
-                                <button type="reset" class="btn btn-outline-secondary">
-                                    <i class="fas fa-redo me-2"></i>Clear Form
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
-                <!-- Tech Stack Info -->
-                <div class="card card-custom">
-                    <div class="card-body">
-                        <h5 class="mb-3"><i class="fas fa-code me-2"></i>Technology Stack</h5>
-                        <div class="row text-center">
-                            <div class="col-3">
-                                <div class="tech-icon">
-                                    <i class="fab fa-spring"></i>
-                                </div>
-                                <small>Spring Boot</small>
-                            </div>
-                            <div class="col-3">
-                                <div class="tech-icon">
-                                    <i class="fas fa-database"></i>
-                                </div>
-                                <small>MongoDB</small>
-                            </div>
-                            <div class="col-3">
-                                <div class="tech-icon">
-                                    <i class="fab fa-docker"></i>
-                                </div>
-                                <small>Docker</small>
-                            </div>
-                            <div class="col-3">
-                                <div class="tech-icon">
-                                    <i class="fab fa-jenkins"></i>
-                                </div>
-                                <small>Jenkins</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+					<div class="form-group">
+						<div class="blue-badge">Email</div>
+						<input type="email" id="email" class="form-control" 
+						       placeholder="Enter email" name="email" required>
+					</div>
+					
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">
+							<i class="glyphicon glyphicon-user"></i> Register Student
+						</button>
+					</div>
+				</form>
+			</div>
+			
+			<div class="col-md-6">
+				<h3>Registration Info</h3>
+				<div class="well">
+					<p>Fill in all fields marked with blue badges and click "Register Student" to save.</p>
+					<p>The student will appear in the table below.</p>
+				</div>
+			</div>
+		</div>
 
-            <!-- Students Table -->
-            <div class="col-lg-7">
-                <div class="card card-custom">
-                    <div class="card-header card-header-custom d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0"><i class="fas fa-list-alt me-2"></i>Registered Students</h4>
-                        <div class="input-group" style="width: 300px;">
-                            <input type="text" id="searchInput" class="form-control form-control-custom" 
-                                   placeholder="Search students...">
-                            <button class="btn btn-success-custom" type="button" id="searchButton">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-custom" id="studentsTable">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th><i class="fas fa-user me-1"></i> Name</th>
-                                        <th><i class="fas fa-birthday-cake me-1"></i> Age</th>
-                                        <th><i class="fas fa-envelope me-1"></i> Email</th>
-                                        <th class="text-center"><i class="fas fa-cogs me-1"></i> Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="studentsTableBody">
-                                    <!-- Students will be populated here by JavaScript -->
-                                    <tr id="noStudentsRow" style="display: none;">
-                                        <td colspan="5" class="text-center py-5">
-                                            <i class="fas fa-users fa-3x mb-3 text-muted"></i>
-                                            <h5 class="text-muted">No students registered yet</h5>
-                                            <p class="text-muted">Add your first student using the form on the left</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div class="text-muted" id="studentCount">Showing 0 students</div>
-                            <div>
-                                <button class="btn btn-outline-primary btn-sm" id="refreshBtn">
-                                    <i class="fas fa-sync-alt me-1"></i> Refresh
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm" id="deleteAllBtn">
-                                    <i class="fas fa-trash-alt me-1"></i> Delete All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- System Information -->
-                <div class="card card-custom mt-4">
-                    <div class="card-body">
-                        <h5 class="mb-3"><i class="fas fa-info-circle me-2"></i>System Information</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <ul class="list-unstyled">
-                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Real-time data sync</li>
-                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Secure MongoDB storage</li>
-                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Responsive design</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul class="list-unstyled">
-                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Form validation</li>
-                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Docker containerized</li>
-                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>REST API ready</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Registered Students</h2>
+				<table id="usersTable" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Age</th>
+							<th>Email</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Data will be populated by JavaScript -->
+					</tbody>
+				</table>
+			</div>
+		</div>
 
-    <!-- Footer -->
-    <div class="footer-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-graduation-cap me-2"></i>Student Registration System</h5>
-                    <p class="mb-0 text-muted">A modern web application for educational institutions</p>
-                </div>
-                <div class="col-md-6 text-end">
-                    <p class="mb-0">
-                        <i class="fas fa-copyright me-1"></i> 2024 Student Management System 
-                        | Version 2.0.1
-                    </p>
-                    <p class="mb-0 text-muted">
-                        <i class="fas fa-server me-1"></i> MongoDB Connected 
-                        <span class="ms-3"><i class="fas fa-bolt text-success me-1"></i> System Online</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="row footer-section">
+			<div class="col-md-3">
+				<img th:src="@{/img/logo1.png}" alt="logo1.png" height="150" 
+				     style="border-radius: 8px; border: 2px solid #007bff; padding: 5px;">
+			</div>
+			<div class="col-md-9">
+				<h4 class="text-center">E&E Cloud Technology & DevOps Automation.</h4>							
+			</div>
+		</div>
+	</div>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Custom JavaScript -->
-    <script>
-        $(document).ready(function() {
-            // Load students on page load
-            loadStudents();
-            
-            // Handle form submission
-            $('#studentForm').on('submit', function(e) {
-                e.preventDefault();
-                
-                const student = {
-                    firstName: $('#firstName').val(),
-                    lastName: $('#lastName').val(),
-                    age: $('#age').val(),
-                    email: $('#email').val()
-                };
-                
-                $.ajax({
-                    url: '/api/students',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(student),
-                    success: function(response) {
-                        // Clear form
-                        $('#studentForm')[0].reset();
-                        
-                        // Show success message
-                        showAlert('Student registered successfully!', 'success');
-                        
-                        // Reload students
-                        loadStudents();
-                    },
-                    error: function(xhr) {
-                        showAlert('Error: ' + (xhr.responseJSON?.message || 'Failed to register student'), 'danger');
-                    }
-                });
-            });
-            
-            // Search functionality
-            $('#searchButton').on('click', function() {
-                searchStudents($('#searchInput').val());
-            });
-            
-            $('#searchInput').on('keyup', function(e) {
-                if (e.key === 'Enter') {
-                    searchStudents($(this).val());
-                }
-            });
-            
-            // Refresh button
-            $('#refreshBtn').on('click', function() {
-                loadStudents();
-                showAlert('Student list refreshed', 'info');
-            });
-            
-            // Load students from API
-            function loadStudents() {
-                $.ajax({
-                    url: '/api/students',
-                    type: 'GET',
-                    success: function(students) {
-                        updateStudentsTable(students);
-                    },
-                    error: function() {
-                        showAlert('Failed to load students', 'danger');
-                    }
-                });
-            }
-            
-            // Search students
-            function searchStudents(query) {
-                if (!query.trim()) {
-                    loadStudents();
-                    return;
-                }
-                
-                $.ajax({
-                    url: '/api/students/search?keyword=' + encodeURIComponent(query),
-                    type: 'GET',
-                    success: function(students) {
-                        updateStudentsTable(students);
-                    },
-                    error: function() {
-                        showAlert('Search failed', 'danger');
-                    }
-                });
-            }
-            
-            // Update the students table
-            function updateStudentsTable(students) {
-                const tbody = $('#studentsTableBody');
-                tbody.empty();
-                
-                if (students.length === 0) {
-                    $('#noStudentsRow').show();
-                    $('#studentCount').text('No students found');
-                    $('#totalStudents').text('0');
-                    return;
-                }
-                
-                $('#noStudentsRow').hide();
-                
-                students.forEach(function(student, index) {
-                    const row = `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>
-                                <strong>${student.firstName} ${student.lastName}</strong>
-                            </td>
-                            <td>
-                                <span class="badge bg-info">${student.age} years</span>
-                            </td>
-                            <td>
-                                <a href="mailto:${student.email}" class="text-decoration-none">
-                                    <i class="fas fa-envelope me-1"></i>${student.email}
-                                </a>
-                            </td>
-                            <td class="text-center action-buttons">
-                                <button class="btn btn-sm btn-outline-primary edit-btn" data-id="${student.id}">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${student.id}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                    tbody.append(row);
-                });
-                
-                // Update stats
-                $('#studentCount').text(`Showing ${students.length} student${students.length !== 1 ? 's' : ''}`);
-                $('#totalStudents').text(students.length);
-                $('#activeStudents').text(students.length);
-                
-                // Add event listeners for edit and delete buttons
-                $('.edit-btn').on('click', function() {
-                    const studentId = $(this).data('id');
-                    editStudent(studentId);
-                });
-                
-                $('.delete-btn').on('click', function() {
-                    const studentId = $(this).data('id');
-                    deleteStudent(studentId);
-                });
-            }
-            
-            // Edit student
-            function editStudent(id) {
-                // Find the student
-                $.ajax({
-                    url: '/api/students/' + id,
-                    type: 'GET',
-                    success: function(student) {
-                        // Populate form
-                        $('#firstName').val(student.firstName);
-                        $('#lastName').val(student.lastName);
-                        $('#age').val(student.age);
-                        $('#email').val(student.email);
-                        
-                        // Change form to update mode
-                        $('#studentForm').off('submit').on('submit', function(e) {
-                            e.preventDefault();
-                            
-                            const updatedStudent = {
-                                firstName: $('#firstName').val(),
-                                lastName: $('#lastName').val(),
-                                age: $('#age').val(),
-                                email: $('#email').val()
-                            };
-                            
-                            $.ajax({
-                                url: '/api/students/' + id,
-                                type: 'PUT',
-                                contentType: 'application/json',
-                                data: JSON.stringify(updatedStudent),
-                                success: function() {
-                                    showAlert('Student updated successfully!', 'success');
-                                    loadStudents();
-                                    resetForm();
-                                },
-                                error: function() {
-                                    showAlert('Failed to update student', 'danger');
-                                }
-                            });
-                        });
-                        
-                        showAlert('Now editing student. Update the fields and click "Update Student".', 'info');
-                    }
-                });
-            }
-            
-            // Delete student
-            function deleteStudent(id) {
-                if (confirm('Are you sure you want to delete this student?')) {
-                    $.ajax({
-                        url: '/api/students/' + id,
-                        type: 'DELETE',
-                        success: function() {
-                            showAlert('Student deleted successfully', 'success');
-                            loadStudents();
-                        },
-                        error: function() {
-                            showAlert('Failed to delete student', 'danger');
-                        }
-                    });
-                }
-            }
-            
-            // Reset form to add mode
-            function resetForm() {
-                $('#studentForm')[0].reset();
-                $('#studentForm').off('submit').on('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const student = {
-                        firstName: $('#firstName').val(),
-                        lastName: $('#lastName').val(),
-                        age: $('#age').val(),
-                        email: $('#email').val()
-                    };
-                    
-                    $.ajax({
-                        url: '/api/students',
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify(student),
-                        success: function() {
-                            showAlert('Student registered successfully!', 'success');
-                            loadStudents();
-                            resetForm();
-                        },
-                        error: function() {
-                            showAlert('Failed to register student', 'danger');
-                        }
-                    });
-                });
-            }
-            
-            // Show alert message
-            function showAlert(message, type) {
-                const alert = $(`
-                    <div class="alert alert-${type} alert-dismissible fade show position-fixed" 
-                         style="top: 20px; right: 20px; z-index: 1000; max-width: 350px;" role="alert">
-                        ${message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                `);
-                
-                $('body').append(alert);
-                
-                // Auto remove after 5 seconds
-                setTimeout(function() {
-                    alert.alert('close');
-                }, 5000);
-            }
-            
-            // Initialize tooltips
-            $('[data-bs-toggle="tooltip"]').tooltip();
-        });
-    </script>
+	<script>
+		$(document).ready(function() {
+			// Load existing users
+			loadUsers();
+			
+			// Handle form submission
+			$('form[name="saveUser"]').submit(function(e) {
+				e.preventDefault();
+				
+				var formData = $(this).serialize();
+				
+				$.ajax({
+					url: $(this).attr('action'),
+					type: 'POST',
+					data: formData,
+					success: function(response) {
+						// Clear form
+						$('form[name="saveUser"]')[0].reset();
+						
+						// Reload users
+						loadUsers();
+						
+						// Show success message
+						alert('Student registered successfully!');
+					},
+					error: function() {
+						alert('Error registering student');
+					}
+				});
+			});
+		});
+		
+		function loadUsers() {
+			$.ajax({
+				url: "/api/users",
+				success: function(response) {
+					var tbody = $("#usersTable tbody");
+					tbody.empty();
+					
+					if (response.length === 0) {
+						tbody.append('<tr><td colspan="5" class="text-center">No students registered yet</td></tr>');
+						return;
+					}
+					
+					$.each(response, function(i, item) {
+						var row = $("<tr />");
+						$("#usersTable tbody").append(row);
+						
+						row.append($("<td>" + (item.id || 'N/A') + "</td>"));
+						row.append($("<td>" + item.firstName + "</td>"));
+						row.append($("<td>" + item.lastName + "</td>"));
+						row.append($("<td>" + (item.age || 'N/A') + "</td>"));
+						row.append($("<td>" + item.email + "</td>"));
+					});
+				},
+				error: function() {
+					$("#usersTable tbody").html('<tr><td colspan="5" class="text-center">Error loading data</td></tr>');
+				}
+			});
+		}
+	</script>
 </body>
 </html>
