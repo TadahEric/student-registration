@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 
 <link rel="stylesheet" type="text/css"
 	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
@@ -14,273 +16,88 @@
 <script type="text/javascript"
 	th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 
-<title>Spring Boot APP with MongoDB</title>
-
-<style>
-    /* Blue form styling */
-    .form-horizontal {
-        background-color: #e8f4fd;
-        padding: 20px;
-        border-radius: 8px;
-        border: 2px solid #1e88e5;
-        box-shadow: 0 4px 12px rgba(30, 136, 229, 0.2);
-    }
-    
-    /* Blue badges for form labels */
-    .form-group label {
-        display: block;
-        background-color: #1e88e5;
-        color: white;
-        padding: 8px 15px;
-        border-radius: 5px;
-        margin-bottom: 8px;
-        font-weight: bold;
-        text-align: center;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    
-    /* Blue submit button */
-    .btn-submit-blue {
-        background-color: #1e88e5;
-        color: white;
-        border: none;
-        padding: 10px 30px;
-        font-weight: bold;
-        border-radius: 5px;
-        transition: all 0.3s;
-    }
-    
-    .btn-submit-blue:hover {
-        background-color: #0d47a1;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    
-    /* Blue age badge in table */
-    .age-badge {
-        background-color: #1e88e5;
-        color: white;
-        padding: 3px 10px;
-        border-radius: 12px;
-        font-weight: bold;
-        font-size: 12px;
-    }
-    
-    /* Blue table header */
-    .table-striped > thead > tr {
-        background-color: #1e88e5;
-        color: white;
-    }
-    
-    .table-striped > thead > tr > th {
-        border-bottom: 2px solid #0d47a1;
-    }
-    
-    /* Blue border for table */
-    .table-striped {
-        border: 2px solid #1e88e5;
-        border-radius: 5px;
-        overflow: hidden;
-    }
-    
-    /* Light blue background for odd rows */
-    .table-striped > tbody > tr:nth-child(odd) > td {
-        background-color: #e8f4fd;
-    }
-    
-    /* Blue hover effect for table rows */
-    .table-striped > tbody > tr:hover > td {
-        background-color: #bbdefb;
-    }
-    
-    /* Blue container border */
-    .container {
-        border: 1px solid #e0e0e0;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-    
-    h1.text-center {
-        color: #1e88e5;
-        padding-bottom: 15px;
-        border-bottom: 3px solid #1e88e5;
-        margin-bottom: 30px;
-    }
-    
-    h2 {
-        color: #1e88e5;
-        margin-top: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #1e88e5;
-    }
-    
-    h4.text-center {
-        color: #1e88e5;
-    }
-    
-    h3.text-center {
-        color: #1e88e5;
-    }
-    
-    h5.text-center a {
-        color: #1e88e5;
-        font-weight: bold;
-    }
-</style>
+<title>Spring Boot APP with MongoDB </title>
 </head>
 <body>
 	<div class="container">
-		<h1 class="text-center">Student Registration Form</h1>
-		
-		<div class="row">
-			<div class="col-md-6">
-				<form name="saveUser" action="/save" method="post"
-					class="form-horizontal">
-					<div class="form-group">
-						<label for="firstName">First Name:</label> 
-						<input type="text"
-							id="firstName" class="form-control" placeholder="Enter first name"
-							name="firstName" required />
-					</div>
-
-					<div class="form-group">
-						<label for="lastName">Last Name:</label> 
-						<input type="text"
-							id="lastName" class="form-control" placeholder="Enter last name"
-							name="lastName" required>
-					</div>
-					
-					<div class="form-group">
-						<label for="age">Age:</label> 
-						<input type="number" id="age"
-							class="form-control" placeholder="Enter age"
-							name="age" min="1" max="100" required>
-					</div>
-
-					<div class="form-group">
-						<label for="email">Email:</label> 
-						<input type="email" id="email"
-							class="form-control" placeholder="Enter email"
-							name="email" required>
-					</div>
-					
-					<div class="form-group text-center">
-						<button type="submit" class="btn btn-submit-blue">Submit</button>
-					</div>
-				</form>
-			</div>
-			
-			<div class="col-md-6">
-				<div style="background-color: #e8f4fd; padding: 20px; border-radius: 8px; border: 2px solid #1e88e5;">
-					<h3 style="color: #1e88e5; margin-top: 0;">How to Register:</h3>
-					<ol>
-						<li>Fill in all fields in the blue form</li>
-						<li>Click the blue Submit button</li>
-						<li>The student will appear in the table below</li>
-						<li>All registered students are shown automatically</li>
-					</ol>
-					<hr style="border-color: #1e88e5;">
-					<h4 style="color: #1e88e5;">System Status:</h4>
-					<p><span class="label label-success">Spring Boot Running</span></p>
-					<p><span class="label label-success">MongoDB Connected</span></p>
+		<h1 class="text-center">SpringBootApp + MongoDB with Jenkins, Docker and K8S</h1>
+		<div class="col-md-6">
+			<form name="saveUser" action="/save" method="post"
+				class="form-horizontal">
+				<div class="form-group">
+					<label for="firstName">First Name:</label> <input type="text"
+						id="firstName" class="form-control" placeholder="First Name"
+						name="firstName" />
 				</div>
-			</div>
+
+				<div class="form-group">
+					<label for="lastName">Last Name:</label> <input type="text"
+						id="lastName" class="form-control" placeholder="Last Name"
+						name="lastName">
+				</div>
+
+				<div class="form-group">
+					<label for="email">Email:</label> <input type="email" id="email"
+						class="form-control" placeholder="Email" name="email">
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-default">Submit</button>
+				</div>
+			</form>
 		</div>
 
-		<div class="row">
-			<div class="col-md-12">
-				<h2>Saved Users</h2>
-				<table id="usersTable" class="table table-striped">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Age</th>
-							<th>Email</th>
-						</tr>
-					</thead>
-					<tbody>
-						<!-- Data will be loaded by JavaScript -->
-					</tbody>
-				</table>
-			</div>
+
+		<div class="col-md-12">
+			<h2>Saved Users</h2>
+			<table id="usersTable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Email</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
 		</div>
 
-		<div class="row">
+
+		<div class="row-md-8">
 			<div class="col-md-3">
-			     style="border: 2px solid #1e88e5; border-radius: 8px; padding: 5px;">
+				<img th:src="@{/img/logo1.png}" alt="logo1.png" height="200">
 			</div>
-			<div class="col-md-8 col-md-offset-1">
-				<h4 class="text-center">E&E Cloud Technology & DevOps Automation.</h4>
-				
+			<div class="col-md-8">
+				<h4 class="text-center">Landmark Technology - Software Development & DevOps Automation.</h4>
+				<h3 class="text-center">Tel
+					+1 437-215-2483; mylandmarktech@gmail.com</h3>
+				<h5 class="text-center">
+					Copyright 2021 by <a href="http://www.mylandmarktech.com/">Landmark Technology
+						</a>
+				</h5>
 			</div>
 		</div>
 
 	</div>
 
 	<script>
-		$(document).ready(function() {
-			// Load existing users
-			loadUsers();
-			
-			// Handle form submission
-			$('form[name="saveUser"]').submit(function(e) {
-				e.preventDefault();
-				
-				var formData = $(this).serialize();
-				
-				$.ajax({
-					url: $(this).attr('action'),
-					type: 'POST',
-					data: formData,
-					success: function(response) {
-						// Clear form
-						$('form[name="saveUser"]')[0].reset();
-						
-						// Reload users
-						loadUsers();
-						
-						// Show success message
-						alert('Student registered successfully!');
-					},
-					error: function() {
-						alert('Error registering student');
-					}
+		$.ajax({
+			url : "/api/users",
+
+			success : function(response) {
+				$.each(response, function(i, item) {
+					var row = $("<tr />");
+					$("#usersTable").append(row);
+
+					row.append($("<td>" + item.id + "</td>"));
+					row.append($("<td>" + item.firstName + "</td>"));
+					row.append($("<td>" + item.lastName + "</td>"));
+					row.append($("<td>" + item.email + "</td>"));
+
 				});
-			});
-		});
-		
-		function loadUsers() {
-			$.ajax({
-				url: "/api/users",
-				success: function(response) {
-					var tbody = $("#usersTable tbody");
-					tbody.empty();
-					
-					if (response.length === 0) {
-						tbody.append('<tr><td colspan="5" class="text-center">No students registered yet</td></tr>');
-						return;
-					}
-					
-					$.each(response, function(i, item) {
-						var row = $("<tr></tr>");
-						
-						row.append($("<td>" + (item.id || 'N/A') + "</td>"));
-						row.append($("<td>" + (item.firstName || '') + "</td>"));
-						row.append($("<td>" + (item.lastName || '') + "</td>"));
-						row.append($("<td><span class='age-badge'>" + (item.age || 'N/A') + "</span></td>"));
-						row.append($("<td>" + (item.email || '') + "</td>"));
-						
-						tbody.append(row);
-					});
-				},
-				error: function() {
-					$("#usersTable tbody").html('<tr><td colspan="5" class="text-center text-danger">Error loading data</td></tr>');
-				}
-			});
-		}
+			}
+		})
 	</script>
 </body>
 </html>
