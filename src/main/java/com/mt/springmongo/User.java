@@ -24,13 +24,12 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
-    private Integer age;
-
-    public User(String firstName, String lastName, String email, Integer age) {
+ 
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.age = age;
+        
     }
 
     public String getId() {
@@ -65,13 +64,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -82,7 +74,7 @@ public class User implements Serializable {
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(age, user.age);
+                
     }
 
     @Override
