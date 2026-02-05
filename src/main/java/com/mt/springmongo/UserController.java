@@ -4,11 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Controller which handles reqest for saving {@link User}s.
+ * Controller which handles request for saving {@link User}s.
  *
  * @author E&ECloudTech
  */
@@ -23,15 +24,20 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/")
+    public String index() {
+        return "index"; // Just return the HTML page
+    }
+
     @PostMapping(value = "/save")
     public String save(@RequestParam("firstName") String firstName,
                        @RequestParam("lastName") String lastName,
-                       @RequestParam("email") String email){
-                       
-    	logger.info("Creating user name: "+firstName);
+                       @RequestParam("email") String email) {
+        
+        logger.info("Creating user name: " + firstName);
         User user = new User(firstName, lastName, email);
         userRepository.save(user);
 
-        return "redirect:/";
+        return "redirect:/"; // Redirect back to the form
     }
 }
